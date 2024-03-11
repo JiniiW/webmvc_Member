@@ -22,7 +22,7 @@
         <th>이메일</th>
         <th>가입일</th>
         <th>수정</th>
-<%--        삭제 추가 구현 필--%>
+        <th>삭제</th>
     </tr>
     </thead>
     <tbody>
@@ -34,7 +34,7 @@
             <td>${dto.email}</td>
             <td>${dto.joinDate}</td>
             <td><a href="/member/update?id=${dto.id}">수정</a></td>
-<%--            삭제 추가구현 필요--%>
+            <td><a href="/member/delete?id=${dto.id}">삭제</a></td>
         </tr>
     </c:forEach>
     </tbody>

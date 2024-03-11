@@ -52,4 +52,11 @@ public enum MemberService {
         ack = memberDAO.updateMember(memberVO);
         return ack;
     }
+
+    public int deleteMember(String id) throws Exception {
+        log.info("Service : memberDelete");
+        int ack;
+        ack = memberDAO.deleteMember(id);
+        return ack;
+    }
 }

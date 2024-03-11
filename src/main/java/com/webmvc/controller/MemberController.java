@@ -27,7 +27,7 @@ public class MemberController extends HttpServlet {
         } else if ("/update".equals(pathInfo)) {
             handleGetUpdateMember(request, response);
         } else if ("/delete".equals(pathInfo)) {
-
+            handleDeleteMember(request, response);
         }
     }
 
@@ -38,9 +38,8 @@ public class MemberController extends HttpServlet {
             handlePostAddMember(request, response);
         } else if ("/update".equals(pathInfo)) {
             handlePostUpdateMember(request, response);
-        } else if ("/delete".equals(pathInfo)) {
-
         }
+
     }
 
     //메서드 작성
@@ -106,6 +105,18 @@ public class MemberController extends HttpServlet {
 
         try {
             memberService.updateMember(memberDTO);
+            response.sendRedirect("/member/all");
+        } catch (Exception e) {
+            log.error(e);
+        }
+    }
+
+    private void handleDeleteMember(HttpServletRequest request, HttpServletResponse response) {
+        log.info("controller : handleDeleteMember()");
+
+        String id = request.getParameter("id");
+        try {
+            memberService.deleteMember(id);
             response.sendRedirect("/member/all");
         } catch (Exception e) {
             log.error(e);

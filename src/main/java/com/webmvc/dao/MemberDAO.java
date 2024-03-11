@@ -102,5 +102,17 @@ public class MemberDAO {
     }
 
     // 회원 삭제
-    public void deleteMember(){}
+    public int deleteMember(String id) throws Exception {
+        int ack = 0;
+        String sql = "DELETE FROM mvc_member WHERE id = ?";
+
+        @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setString(1, id);
+
+        ack = pstmt.executeUpdate();
+
+        return ack;
+    }
 }
