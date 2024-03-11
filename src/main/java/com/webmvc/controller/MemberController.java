@@ -28,6 +28,9 @@ public class MemberController extends HttpServlet {
             handleGetUpdateMember(request, response);
         } else if ("/delete".equals(pathInfo)) {
             handleDeleteMember(request, response);
+        } else {
+            log.error("404 Not Found");
+            request.getRequestDispatcher("/WEB-INF/error/error404.jsp").forward(request, response);
         }
     }
 
@@ -38,6 +41,9 @@ public class MemberController extends HttpServlet {
             handlePostAddMember(request, response);
         } else if ("/update".equals(pathInfo)) {
             handlePostUpdateMember(request, response);
+        } else {
+            log.error("404 Not Found");
+            request.getRequestDispatcher("/WEB-INF/error/error404.jsp").forward(request, response);
         }
 
     }
