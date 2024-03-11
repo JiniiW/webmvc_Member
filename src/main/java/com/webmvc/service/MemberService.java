@@ -29,4 +29,12 @@ public enum MemberService {
         List<MemberDTO> dtoList = voList.stream().map(vo -> modelMapper.map(vo, MemberDTO.class)).collect(Collectors.toList());
         return dtoList;
     }
+
+    public int addMember(MemberDTO memberDTO) throws Exception {
+        log.info("Service : addMember");
+        int ack;
+        MemberVO memberVO = modelMapper.map(memberDTO, MemberVO.class);
+        ack = memberDAO.addMember(memberVO);
+        return ack;
+    }
 }

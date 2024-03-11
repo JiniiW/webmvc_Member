@@ -5,8 +5,10 @@ import com.webmvc.util.ConnectionUtil;
 import lombok.Cleanup;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +39,24 @@ public class MemberDAO {
     }
 
     // 회원 추가
-    public void addMember(){}
+    public int addMember(MemberVO memberVO) throws Exception {
+
+        int ack = 0;
+
+        String sql = "INSERT INTO mvc_member VALUES (?, ?, ?, ?, now())";
+
+        @Cleanup Connection coon = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = coon.prepareStatement(sql);
+
+        pstmt.setString(1, memberVO.getId());
+        pstmt.setString(2, memberVO.getPassword());
+        pstmt.setString(3, memberVO.getName());
+        pstmt.setString(4, memberVO.getEmail());
+
+        ack = pstmt.executeUpdate();
+
+        return ack;
+    }
 
     // 회원 수정
     public void updateMember(){}
