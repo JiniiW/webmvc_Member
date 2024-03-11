@@ -21,7 +21,7 @@
         <th>이름</th>
         <th>이메일</th>
         <th>가입일</th>
-<%--        수정, 삭제 추가 구현 필요--%>
+<%--        수정, 삭제 추가 구현 필--%>
     </tr>
     </thead>
     <tbody>
@@ -31,11 +31,15 @@
             <td>${dto.password}</td>
             <td>${dto.name}</td>
             <td>${dto.email}</td>
-            <td>${dto.join_date}</td>
+            <td>${dto.joinDate}</td>
 <%--            수정, 삭제 추가구현 필요--%>
         </tr>
     </c:forEach>
     </tbody>
 </table>
+
+<a href="/member/add">회원가입</a>
+
+
 </body>
 </html>
