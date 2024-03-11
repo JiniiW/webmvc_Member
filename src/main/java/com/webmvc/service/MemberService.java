@@ -37,4 +37,19 @@ public enum MemberService {
         ack = memberDAO.addMember(memberVO);
         return ack;
     }
+
+    public MemberDTO get(String id) throws Exception {
+        log.info("Service : get");
+        MemberVO memberVO = memberDAO.getMemberById(id);
+        MemberDTO memberDTO = modelMapper.map(memberVO, MemberDTO.class);
+        return memberDTO;
+    }
+
+    public int updateMember(MemberDTO memberDTO) throws Exception {
+        log.info("Service : updateMember");
+        int ack;
+        MemberVO memberVO = modelMapper.map(memberDTO, MemberVO.class);
+        ack = memberDAO.updateMember(memberVO);
+        return ack;
+    }
 }

@@ -25,7 +25,7 @@ public class MemberController extends HttpServlet {
         } else if ("/add".equals(pathInfo)) {
             request.getRequestDispatcher("/WEB-INF/member/MemberForm.jsp").forward(request, response);
         } else if ("/update".equals(pathInfo)) {
-
+            handleGetUpdateMember(request, response);
         } else if ("/delete".equals(pathInfo)) {
 
         }
@@ -37,7 +37,7 @@ public class MemberController extends HttpServlet {
         if ("/add".equals(pathInfo)) {
             handlePostAddMember(request, response);
         } else if ("/update".equals(pathInfo)) {
-
+            handlePostUpdateMember(request, response);
         } else if ("/delete".equals(pathInfo)) {
 
         }
@@ -51,7 +51,7 @@ public class MemberController extends HttpServlet {
             request.setAttribute("dtoList", dtoList);
             request.getRequestDispatcher("/WEB-INF/member/ListMembers.jsp").forward(request, response);
         } catch (Exception e) {
-            log.info(e);
+            log.error(e);
             e.printStackTrace();
         }
     }
@@ -75,7 +75,40 @@ public class MemberController extends HttpServlet {
                 response.sendRedirect("/member/add");
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error(e);
+        }
+    }
+
+    private void handleGetUpdateMember(HttpServletRequest request, HttpServletResponse response) {
+        log.info("controller : handleGetUpdateMember()");
+        String id = request.getParameter("id");
+
+        try {
+            MemberDTO memberDTO = memberService.get(id);
+
+            request.setAttribute("dto", memberDTO);
+            request.getRequestDispatcher("/WEB-INF/member/MemberModifyForm.jsp").forward(request, response);
+        } catch (Exception e) {
+            log.error(e);
+        }
+    }
+
+    private void handlePostUpdateMember(HttpServletRequest request, HttpServletResponse response) {
+        log.info("controller : handlePostUpdateMember()");
+        MemberDTO memberDTO = MemberDTO.builder()
+                .id(request.getParameter("id"))
+                .password(request.getParameter("password"))
+                .name(request.getParameter("name"))
+                .email(request.getParameter("email"))
+                .build();
+
+        log.info(memberDTO);
+
+        try {
+            memberService.updateMember(memberDTO);
+            response.sendRedirect("/member/all");
+        } catch (Exception e) {
+            log.error(e);
         }
     }
 }

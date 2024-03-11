@@ -59,7 +59,47 @@ public class MemberDAO {
     }
 
     // 회원 수정
-    public void updateMember(){}
+
+    public MemberVO getMemberById(String id) throws Exception {
+        String sql = "SELECT * FROM mvc_member WHERE id = ?";
+
+        @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setString(1, id);
+
+        @Cleanup ResultSet rs = pstmt.executeQuery();
+
+        rs.next();
+
+        MemberVO memberVO = MemberVO.builder()
+                .id(rs.getString("id"))
+                .password(rs.getString("password"))
+                .email(rs.getString("email"))
+                .name(rs.getString("name"))
+                .build();
+
+        return memberVO;
+
+    }
+    public int updateMember(MemberVO memberVO) throws Exception {
+        int ack = 0;
+
+        String sql = "UPDATE mvc_member SET password = ?, name = ?, email = ? WHERE id = ?";
+
+        @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setString(1, memberVO.getPassword());
+        pstmt.setString(2, memberVO.getName());
+        pstmt.setString(3, memberVO.getEmail());
+        pstmt.setString(4, memberVO.getId());
+
+        ack = pstmt.executeUpdate();
+
+        return ack;
+
+    }
 
     // 회원 삭제
     public void deleteMember(){}
