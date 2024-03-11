@@ -3,6 +3,7 @@ package com.webmvc.dao;
 import com.webmvc.domain.MemberVO;
 import com.webmvc.util.ConnectionUtil;
 import lombok.Cleanup;
+import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 public class MemberDAO {
 
     // 목록 조회
@@ -114,5 +116,28 @@ public class MemberDAO {
         ack = pstmt.executeUpdate();
 
         return ack;
+    }
+
+    //로그인
+    public MemberVO getWithPassword(String memberId, String memberPassword) throws Exception {
+        String sql = "SELECT id, password, name FROM mvc_member WHERE id = ? AND password = ?";
+
+        @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setString(1, memberId);
+        pstmt.setString(2, memberPassword);
+
+        @Cleanup ResultSet rs = pstmt.executeQuery();
+
+        rs.next();
+
+        MemberVO memberVO = MemberVO.builder()
+                .id(rs.getString(1))
+                .password(rs.getString(2))
+                .name(rs.getString(3))
+                .build();
+
+        return memberVO;
     }
 }

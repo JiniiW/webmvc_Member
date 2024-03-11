@@ -59,4 +59,11 @@ public enum MemberService {
         ack = memberDAO.deleteMember(id);
         return ack;
     }
+
+    public MemberDTO login (String memberId, String memberPassword) throws Exception {
+        log.info("Service : login()");
+        MemberVO memberVo = memberDAO.getWithPassword(memberId, memberPassword);
+        MemberDTO memberDTO = modelMapper.map(memberVo, MemberDTO.class);
+        return memberDTO;
+    }
 }
