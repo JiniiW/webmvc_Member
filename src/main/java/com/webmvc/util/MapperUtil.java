@@ -8,7 +8,7 @@ public enum MapperUtil {
     INSTANCE;
 
     private ModelMapper modelMapper;
-    //object mapping
+
     MapperUtil(){
         this.modelMapper = new ModelMapper();
         this.modelMapper.getConfiguration()
