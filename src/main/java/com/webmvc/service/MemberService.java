@@ -23,14 +23,14 @@ public enum MemberService {
         modelMapper = MapperUtil.INSTANCE.get();
     }
 
-    public List<MemberDTO> getAllMembersInfo() throws Exception {
+    public List<MemberDTO> getAllMembersInfo() {
         log.info("Service : getAllMembersInfo");
         List<MemberVO> voList = memberDAO.listMembers();
         List<MemberDTO> dtoList = voList.stream().map(vo -> modelMapper.map(vo, MemberDTO.class)).collect(Collectors.toList());
         return dtoList;
     }
 
-    public int addMember(MemberDTO memberDTO) throws Exception {
+    public int addMember(MemberDTO memberDTO) {
         log.info("Service : addMember");
         int ack;
         MemberVO memberVO = modelMapper.map(memberDTO, MemberVO.class);
@@ -38,14 +38,14 @@ public enum MemberService {
         return ack;
     }
 
-    public MemberDTO get(String id) throws Exception {
+    public MemberDTO get(String id) {
         log.info("Service : get");
         MemberVO memberVO = memberDAO.getMemberById(id);
         MemberDTO memberDTO = modelMapper.map(memberVO, MemberDTO.class);
         return memberDTO;
     }
 
-    public int updateMember(MemberDTO memberDTO) throws Exception {
+    public int updateMember(MemberDTO memberDTO) {
         log.info("Service : updateMember");
         int ack;
         MemberVO memberVO = modelMapper.map(memberDTO, MemberVO.class);
@@ -53,14 +53,14 @@ public enum MemberService {
         return ack;
     }
 
-    public int deleteMember(String id) throws Exception {
+    public int deleteMember(String id) {
         log.info("Service : memberDelete");
         int ack;
         ack = memberDAO.deleteMember(id);
         return ack;
     }
 
-    public MemberDTO login (String memberId, String memberPassword) throws Exception {
+    public MemberDTO login (String memberId, String memberPassword) {
         log.info("Service : login()");
         MemberVO memberVo = memberDAO.getWithPassword(memberId, memberPassword);
         MemberDTO memberDTO = modelMapper.map(memberVo, MemberDTO.class);

@@ -76,7 +76,7 @@ public class MemberController extends HttpServlet {
             if(ack == 1){
                 response.sendRedirect("/member/all");
             } else {
-                log.info("회원 추가에 실패했습니다.");
+                log.error("회원 추가에 실패했습니다.");
                 response.sendRedirect("/member/add");
             }
         } catch (Exception e) {
@@ -100,6 +100,8 @@ public class MemberController extends HttpServlet {
 
     private void handlePostUpdateMember(HttpServletRequest request, HttpServletResponse response) {
         log.info("controller : handlePostUpdateMember()");
+
+        int ack;
         MemberDTO memberDTO = MemberDTO.builder()
                 .id(request.getParameter("id"))
                 .password(request.getParameter("password"))
@@ -110,8 +112,13 @@ public class MemberController extends HttpServlet {
         log.info(memberDTO);
 
         try {
-            memberService.updateMember(memberDTO);
-            response.sendRedirect("/member/all");
+            ack = memberService.updateMember(memberDTO);
+            if(ack == 1){
+                response.sendRedirect("/member/all");
+            } else {
+                log.error("회원 정보 수정에 실패했습니다.");
+                response.sendRedirect("/member/all");
+            }
         } catch (Exception e) {
             log.error(e);
         }
@@ -120,10 +127,16 @@ public class MemberController extends HttpServlet {
     private void handleDeleteMember(HttpServletRequest request, HttpServletResponse response) {
         log.info("controller : handleDeleteMember()");
 
+        int ack;
         String id = request.getParameter("id");
         try {
-            memberService.deleteMember(id);
-            response.sendRedirect("/member/all");
+            ack = memberService.deleteMember(id);
+            if(ack == 1){
+                response.sendRedirect("/member/all");
+            } else {
+                log.error("회원 정보 삭제를 실패했습니다.");
+                response.sendRedirect("/member/all");
+            }
         } catch (Exception e) {
             log.error(e);
         }
